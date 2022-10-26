@@ -1,3 +1,3 @@
 # WaveFunctionCollapse
 
-![Alt Text](imageGeneration.gif)
+![](imageGeneration.gif)
