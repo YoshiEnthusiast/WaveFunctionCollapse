@@ -1,0 +1,187 @@
+﻿<Window x:Class="WaveFunctionCollapseAlgorithm.Examples.ImageGeneratorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Image Generator"
+        AllowDrop="True"
+        Closed="OnClose"
+        Height="529"
+        Width="970">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="20" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="20" />
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Row="1"
+                    Grid.Column="3"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Center"
+                    Margin="0,0,0,3">
+            <StackPanel Orientation="Horizontal"
+                        Margin="20,0,20,0">
+                <TextBlock Text="Seed:" />
+                <TextBox x:Name="_seedTextBox"
+                         Width="120"
+                         Margin="5,0,5,0"
+                         PreviewTextInput="OnTextBoxPreviewTextInput" />
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal"
+                        Margin="20,0,20,0">
+                <TextBlock Text="Contradictions:" />
+                <TextBlock x:Name="_contradictionsTextBlock"
+                           Text="0"
+                           Margin="5,0,5,0" />
+            </StackPanel>
+        </StackPanel>
+
+        <GroupBox Header="GenerationOptions"
+                  Grid.Row="2"
+                  Grid.Column="1"
+                  Margin="12,0,0,5">
+            <StackPanel Margin="3,3,3,0">
+                <StackPanel Margin="0,0,0,5"
+                            Orientation="Horizontal">
+                    <TextBlock Text="Tile size:" />
+                    <TextBox x:Name="_tileSizeTextBox"
+                             Text="3"
+                             Width="35"
+                             Margin="8,0,0,0"
+                             PreviewTextInput="OnTextBoxPreviewTextInput" />
+                </StackPanel>
+                <CheckBox x:Name="_randomSeedCheckBox"
+                          Content="Random seed"
+                          Margin="0,0,0,5"
+                          IsChecked="True" />
+                <CheckBox x:Name="_rotationCheckBox"
+                          Content="Rotation"
+                          Margin="0,0,0,5" />
+                <CheckBox x:Name="_reflectionXCheckBox"
+                          Content="Reflection X"
+                          Margin="0,0,0,5" />
+                <CheckBox x:Name="_reflectionYCheckBox"
+                          Content="Reflection Y"
+                          Margin="0,0,0,5" />
+                <CheckBox x:Name="_periodicInputXCheckBox"
+                          Content="Periodic input X"
+                          Margin="0,0,0,5"
+                          IsChecked="True" />
+                <CheckBox x:Name="_periodicInputYCheckBox"
+                          Content="Periodic input Y"
+                          Margin="0,0,0,5"
+                          IsChecked="True" />
+            </StackPanel>
+        </GroupBox>
+
+        <GroupBox Header="Output options"
+                  Grid.Row="2"
+                  Grid.Column="2"
+                  Margin="12,0,12,5">
+            <StackPanel Margin="3,3,3,0">
+                <StackPanel Margin="0,0,0,5"
+                            Orientation="Horizontal">
+                    <TextBlock Text="Width:" />
+                    <TextBox x:Name="_widthTextBox"
+                             Text="30"
+                             Width="35"
+                             Margin="8,0,0,0"
+                             PreviewTextInput="OnTextBoxPreviewTextInput" />
+                </StackPanel>
+                <StackPanel Margin="0,0,0,5"
+                            Orientation="Horizontal">
+                    <TextBlock Text="Height:" />
+                    <TextBox x:Name="_heightTextBox"
+                             Text="30"
+                             Width="35"
+                             Margin="8,0,0,0"
+                             PreviewTextInput="OnTextBoxPreviewTextInput" />
+                </StackPanel>
+                <StackPanel Margin="0,0,0,5"
+                            Orientation="Horizontal">
+                    <TextBlock Text="Min interval:" />
+                    <TextBox x:Name="_minIntervalCheckBox"
+                             Text="0"
+                             Width="35"
+                             Margin="8,0,0,0"
+                             PreviewTextInput="OnTextBoxPreviewTextInput" />
+                </StackPanel>
+                <CheckBox x:Name="_periodicOutputXCheckBox"
+                          Content="Periodic output X"
+                          Margin="0,0,0,5" />
+                <CheckBox x:Name="_periodicOutputYCheckBox"
+                          Content="Periodic output Y"
+                          Margin="0,0,0,5" />
+                <CheckBox x:Name="_drawUncollapsedValuesCheckBox"
+                          Content="Draw uncollapsed values"
+                          Margin="0,0,0,5"
+                          IsChecked="True" />
+            </StackPanel>
+        </GroupBox>
+
+        <Border Grid.Row="2"
+                Grid.Column="3"
+                Margin="5"
+                Grid.RowSpan="2"
+                Background="LightGray">
+            <Image x:Name="_generatedImage"
+                   HorizontalAlignment="Center"
+                   RenderOptions.BitmapScalingMode="NearestNeighbor" />
+        </Border>
+
+        <StackPanel Grid.Row="4"
+                    Grid.Column="3"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Center">
+            <Button Content="Generate"
+                    Margin="10"
+                    Width="90"
+                    Height="30"
+                    Click="OnGenerateButtonClick" />
+            <Button Content="Save"
+                    Margin="10"
+                    Width="90"
+                    Height="30"
+                    Click="OnSaveButtonClick" />
+            <Button x:Name="_stopButton"
+                    Content="Stop"
+                    Margin="10"
+                    Width="90"
+                    Height="30"
+                    Click="OnStopButtonClick" />
+        </StackPanel>
+
+        <Image x:Name="_templateImage"
+               Grid.Row="3"
+               Grid.Column="1"
+               Grid.ColumnSpan="2"
+               MaxWidth="180"
+               MaxHeight="180"
+               Stretch="Uniform"
+               VerticalAlignment="Bottom"
+               HorizontalAlignment="Left"
+               RenderOptions.BitmapScalingMode="NearestNeighbor" />
+
+        <Button Content="Select file"
+                Grid.Row="4"
+                Grid.Column="1"
+                Margin="10"
+                Width="90"
+                Height="30"
+                Click="OnSelectFileButtonClick" />
+    </Grid>
+</Window>
